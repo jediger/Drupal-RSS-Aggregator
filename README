@@ -1,0 +1,1 @@
+This Drupal 7 module is intended to let the user add a collection of RSS feeds to aggregate, and select the node type that each RSS feed should import to. The module caches the RSS contents so that the user can import content from the cached version. 
