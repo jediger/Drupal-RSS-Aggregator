@@ -1,0 +1,11 @@
+; $Id: $
+name = RSS Aggregator
+description = "Pull in RSS feeds and create nodes of a given type based on RSS contents"
+package = Other
+
+; Purposively added for feature development.
+version = 7.x-1.x-dev
+core = 7.x
+files[] = rss_aggregator.module
+files[] = rss_aggregator.admin.inc
+files[] = rss_aggregator.config.inc

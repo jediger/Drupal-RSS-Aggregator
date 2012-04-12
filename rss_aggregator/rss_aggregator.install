@@ -1,0 +1,64 @@
+<?php
+
+function rss_aggregator_schema() {
+	$schema['rss_aggregator_sources'] = array(
+		'description' => 'Aggregator sources',
+		'fields' => array(
+			'raid' => array(
+				'description' => 'The primary identifier for a source entry.',
+				'type' => 'serial',
+				'unsigned' => TRUE,
+				'not null' => TRUE,
+			),
+			'name' => array(
+				'description' => 'Source name',
+				'type' => 'varchar',
+				'length' => 32,
+				'not null' => TRUE,
+				'default' => '',
+			),
+			'url' => array(
+				'description' => 'The source URL',
+				'type' => 'varchar',
+				'length' => 255,
+				'not null' => TRUE,
+				'default' => '',
+			),
+			'type' => array(
+				'description' => 'The node type for incoming articles',
+				'type' => 'varchar',
+				'length' => 32,
+				'not null' => TRUE,
+				'default' => '',
+			),
+			'field' => array(
+				'description' => 'The target field for the GUID property',
+				'type' => 'varchar',
+				'length' => 32,
+				'not null' => TRUE,
+				'default' => '',
+			),
+		),
+		'primary key' => array('raid'),
+	);
+	
+	$schema['rss_aggregator_xml'] = array(
+		'description' => 'Retrieved XML feeds',
+		'fields' => array(
+			'raid' => array(
+				'description' => 'Source foreign key',
+				'type' => 'int',
+				'length' => 32,
+				'not null' => TRUE,
+			),
+			'xml' => array(
+				'description' => 'The Fetched XML',
+				'type' => 'text',
+				'not null' => TRUE,
+			),
+		),
+	);
+	
+	
+	return $schema;
+}

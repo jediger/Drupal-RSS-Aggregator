@@ -1,0 +1,5 @@
+td.hide, th.hide {display: none;}
+
+#rss-aggregator-admin-form td:last-child {
+	width: 20%;
+}
