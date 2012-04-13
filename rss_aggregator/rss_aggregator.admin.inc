@@ -92,20 +92,30 @@ function rss_aggregator_admin_form_refresh($form, &$form_state) {
  */
 function rss_aggregator_parse_xml() {
 	$articles = array();
-	$guids = db_query("SELECT entity_id, field_guid_value FROM {field_data_field_guid}");
 	$existing = array();
-	foreach($guids as $guid) {
-		$existing[$guid->field_guid_value] = array(
-			'guid' => $guid->field_guid_value,
-			'nid' => $guid->entity_id,
-		);
+	//find all the guid fields defined for each data source
+	$fields = db_query("SELECT DISTINCT field FROM {rss_aggregator_sources}");
+	foreach($fields as $field) {
+		//retrieve the value of all the defined guid fields
+		$guids = db_select('field_data_' . $field->field, 'f')->fields('f', array('entity_id', $field->field . '_value'))->execute();
+		foreach($guids as $guid) {
+			$guid = (array)$guid;
+			//build an index of all the guids
+			$existing[$guid[($field->field . '_value')]] = array(
+				'guid' => $guid[($field->field . '_value')],
+				'nid' => $guid['entity_id'],
+			);
+		}
 	}
+	//get all sources and configuration data
 	$result = db_query("SELECT * FROM {rss_aggregator_xml} as xml LEFT JOIN {rss_aggregator_sources} AS sources ON sources.raid = xml.raid");
 	foreach ($result as $record) {
 		$xml = $record->xml;
+		//parse the rss/xml
 		$doc = new DOMDocument();
 		$doc->loadXML($xml);
 		foreach($doc->getElementsByTagName('item') as $node) {
+			//get all taxonomical categories
 			$taxonomy = array();
 			foreach($node->getElementsByTagName('category') as $term) {
 				$taxonomy[] = $term->nodeValue;

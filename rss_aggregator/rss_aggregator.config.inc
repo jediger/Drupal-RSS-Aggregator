@@ -54,50 +54,50 @@ function rss_aggregator_config_form($form, &$form_state) {
 		),
   );
   $odd = true;
-  
-  foreach($sources as $key => $source) {
-		
-		$form['table'][$key] = array(
-	    '#prefix' => '<tr class="' . ($odd ? 'odd' : 'even') . '">',
-	    '#suffix' => '</tr>',
-	    'raid' => array(
-	      '#type' => 'hidden',
-	      '#default_value' => $source['raid'],
-		    '#prefix' => '<td class="hide">',
-		    '#suffix' => '</td>',
-	    ),
-	    'name' => array(
-	      '#size' => 50,
-	      '#type' => 'textfield',
-	      '#default_value' => $source['name'],
-		    '#prefix' => '<td>',
-		    '#suffix' => '</td>',
-	    ),
-	    'url' => array(
-	      '#size' => 150,
-	      '#type' => 'textfield',
-	      '#default_value' => $source['url'],
-		    '#prefix' => '<td>',
-		    '#suffix' => '</td>',
-	    ),
-	    'type' => array(
-	      '#type' => 'select',
-	      '#options' => $nodetypes,
-	      '#default_value' => $source['type'],
-		    '#prefix' => '<td>',
-		    '#suffix' => '</td>',
-	    ),
-	    'field' => array(
-	      '#type' => 'select',
-	      '#options' => $fields,
-	      '#default_value' => $source['field'],
-		    '#prefix' => '<td>',
-		    '#suffix' => '</td>',
-	    ),
-	  );
-	  $odd = $odd ? false : true;
-  }
-
+  if(!empty($sources)) {
+	  foreach($sources as $key => $source) {
+			
+			$form['table'][$key] = array(
+		    '#prefix' => '<tr class="' . ($odd ? 'odd' : 'even') . '">',
+		    '#suffix' => '</tr>',
+		    'raid' => array(
+		      '#type' => 'hidden',
+		      '#default_value' => $source['raid'],
+			    '#prefix' => '<td class="hide">',
+			    '#suffix' => '</td>',
+		    ),
+		    'name' => array(
+		      '#size' => 50,
+		      '#type' => 'textfield',
+		      '#default_value' => $source['name'],
+			    '#prefix' => '<td>',
+			    '#suffix' => '</td>',
+		    ),
+		    'url' => array(
+		      '#size' => 150,
+		      '#type' => 'textfield',
+		      '#default_value' => $source['url'],
+			    '#prefix' => '<td>',
+			    '#suffix' => '</td>',
+		    ),
+		    'type' => array(
+		      '#type' => 'select',
+		      '#options' => $nodetypes,
+		      '#default_value' => $source['type'],
+			    '#prefix' => '<td>',
+			    '#suffix' => '</td>',
+		    ),
+		    'field' => array(
+		      '#type' => 'select',
+		      '#options' => $fields,
+		      '#default_value' => $source['field'],
+			    '#prefix' => '<td>',
+			    '#suffix' => '</td>',
+		    ),
+		  );
+		  $odd = $odd ? false : true;
+	  }
+	}
   
   $form['table']['new'] = array(
     '#attributes' => array('class' => array('draggable', 'tabledrag-leaf', 'add-new')),
@@ -132,6 +132,7 @@ function rss_aggregator_config_form($form, &$form_state) {
 	    ),
 	    'field' => array(
 	      '#type' => 'select',
+	      '#title' => t('GUID Field'),
 	      '#options' => $fields,
 		    '#prefix' => '<td>',
 		    '#suffix' => '</td>',
